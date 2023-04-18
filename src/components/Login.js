@@ -3,12 +3,23 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import AuthContext from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../store/services/api";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../store/features/auth/authSlice";
 
 const Login = ({ message }) => {
-  const { loginUser } = useContext(AuthContext);
+  const [login, { data, error, isSuccess, isError, isLoading }] =
+    useLoginMutation();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const _onSave = (values) => {
-    loginUser(values);
+  const _onSave = async (values) => {
+    try {
+      const user = await login(values).unwrap();
+      dispatch(setCredentials(user));
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

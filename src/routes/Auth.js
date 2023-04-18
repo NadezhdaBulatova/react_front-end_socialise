@@ -7,11 +7,11 @@ import { useContext } from "react";
 import AuthContext from "../contexts/AuthContext";
 
 const Auth = () => {
-  const { user } = useContext(AuthContext);
+  // const { user } = useContext(AuthContext);
   const location = useLocation();
   const data = location.state?.data;
   const message = location.state?.message;
-  if (user) return <Navigate to="/" replace />;
+  // if (user) return <Navigate to="/" replace />;
   return (
     <AuthBg>
       <div className=" flex-1 z-10 my-auto">
@@ -27,7 +27,8 @@ const Auth = () => {
             <h2 className="text-5xl font-rampart text-blue text-center m-3">
               Socialize
             </h2>
-            {data === "login" ? <Login message={message} /> : <Register />}
+            <Login message={message} />
+            {/* {data === "login" ? <Login message={message} /> : <Register />} */}
           </div>
         </div>
       </div>
