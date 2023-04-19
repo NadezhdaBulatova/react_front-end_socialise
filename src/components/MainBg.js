@@ -19,6 +19,7 @@ const MainBg = ({ children, img }) => {
   const refresh_tkn = useSelector(selectRefreshToken);
   const access_tkn_exp = useSelector(selectAccessTokenExp);
   const isExpired = dayjs.unix(access_tkn_exp).subtract(1, "minute") < dayjs();
+
   console.log("expired", isExpired);
   const [refresh, { data: refresh_data }] = useRefreshTokensMutation();
   const {
@@ -41,6 +42,24 @@ const MainBg = ({ children, img }) => {
     dispatch(setTokens(data));
   };
 
+  const menuList = [
+    {
+      header: "Home",
+      link: "/",
+      nested: null,
+    },
+    {
+      header: "Translate",
+      link: "/translate",
+      nested: profile_data?.language,
+    },
+    {
+      header: "Travel history",
+      link: "/travel",
+      nested: null,
+    },
+  ];
+
   if (profile_data)
     return (
       <>
@@ -54,7 +73,7 @@ const MainBg = ({ children, img }) => {
         </div>
         <div className="relative w-full h-screen z-2">
           <div className="w-full p-1 lg:p-2">
-            <Menu />
+            <Menu menuList={menuList} />
           </div>
           <div className="w-full md:h-[90%] md:min-h-fit flex-none p-1 md:p-2 md:pt-0">
             <div className="flex flex-1 h-full flex-col md:flex-row">
